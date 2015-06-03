@@ -1,0 +1,7 @@
+{
+   "mongoAppDb": {
+       "host": "localhost",
+       "db": "meteor",
+       "port": 3006
+   }
+}
