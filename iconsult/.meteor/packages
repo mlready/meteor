@@ -1,0 +1,26 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+underscore
+coffeescript
+less
+mquandalle:jade
+email
+accounts-password
+ian:accounts-ui-bootstrap-3
+iron:router
+sacha:spin
+aldeed:collection2
+mvrx:bluebird
+mrt:mongodb-aggregation
+aldeed:autoform@4.0.0-rc8
+momentjs:moment
+
+mrt:moment-timezone
+urigo:angular
+mrt:q
+nemo64:bootstrap
+numeral:numeral

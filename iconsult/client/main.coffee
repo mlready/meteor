@@ -1,0 +1,5 @@
+Meteor.subscribe('activities')
+Meteor.subscribe('clients')
+Meteor.subscribe('invoices')
+Meteor.subscribe('payments')
+Session.set('pageTitle', 'IConsult')

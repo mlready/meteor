@@ -1,0 +1,55 @@
+template( name="clientsList" )
+	btn.btn.btn-default.new-client New
+
+	.header
+		.col-sm-2 Name
+		.col-sm-2 Contact Name
+		.col-sm-2 Start Date
+		.col-sm-2 End Date
+		.col-sm-1 Bill Rate
+		
+	
+	.clients
+		each clients
+			+clientItem
+			
+	+clientSubmitModal
+
+			
+template( name="clientItem" )
+	.client
+		.client-content
+			.col-sm-2 {{name}}
+			.col-sm-2 {{contactName}}
+			.col-sm-2 {{formatDate startDate}}
+			.col-sm-2 {{formatDate endDate}}
+			.col-sm-1 {{billRate}}
+			.col-sm-3
+				btn.btn.btn-default.edit-client Edit
+	
+template( name="clientSubmitModal" )
+	.modal.fade.in(
+		id="clientSubmitModal"
+		role="dialog"
+		aria-labelledby="myModalLabel"
+		area-hidden="true"
+	)
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(
+						type="button"
+						class="close-modal"
+					)
+						span(aria-hidden="true") &times;
+					h4.modal-title {{mode}} Client
+				.modal-body
+					+autoForm collection="Clients" id="clientSubmitModalForm" doc=client type=formAction template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"
+						+afQuickField name="name"
+						+afQuickField name="contactName"
+						+afQuickField name="startDate"
+						if isEditMode
+							+afQuickField name="endDate"
+						+afQuickField name="address"
+						+afQuickField name="billRate" 
+						button( type="submit" ) Submit

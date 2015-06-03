@@ -1,0 +1,57 @@
+template( name="paymentsList" )
+	
+	select#date-range.date-picker
+		each weeks
+			if isCurrentWeek value
+				option( value="{{value}}" selected) {{label}}
+			else
+				option( value="{{value}}" ) {{label}}
+	
+	.header
+		.col-sm-3 Date
+		.col-sm-2 Invoice
+		.col-sm-2 Amount
+		.col-sm-5 Actions
+	
+	.payments
+		each payments
+			+paymentItem
+			
+template( name="paymentItem" )
+	.payment
+		.payment-content
+			.col-sm-3 {{formatDate paymentDate}}
+			.col-sm-2 {{invoiceNumber}}
+			.col-sm-2 {{formatCurrency amount}}
+			.col-sm-5
+				span.pull-left
+					a.btn.btn-default( href="{{pathFor 'paymentPage'}}" ) Edit
+					a.btn.btn-default.delete-payment( href="#" ) Delete
+
+template( name="paymentPage" )
+	h3 Edit
+	+quickForm collection="Payments" doc=payment id="paymentEditForm" type="edit" omitFields="dates"
+	
+
+template( name="paymentSubmitModal" )
+	.modal.fade.in(
+		id="paymentSubmitModal"
+		role="dialog"
+		aria-labelledby="myModalLabel"
+		area-hidden="true"
+	)
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(
+						type="button"
+						class="close-modal"
+					)
+						span(aria-hidden="true") &times;
+					h4.modal-title Create New Payment
+				.modal-body
+					+autoForm collection="Payments" id="paymentSubmitModalForm" type="insert" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"
+						+afQuickField name="paymentDate" value=currentDate
+						+afQuickField label="For Invoice Number" name="paymentInvoiceId" options=invoices
+						+afQuickField name="amount"
+						button( type="submit" ) Submit

@@ -1,0 +1,81 @@
+template( name="activitiesList" )
+	+activitiesMenu
+
+	div#right
+		select#date-range.date-picker
+			each weeks
+				if isCurrentWeek value
+					option( value="{{value}}" selected) {{label}}
+				else
+					option( value="{{value}}" ) {{label}}
+		
+		.header
+			.col-sm-2 Date
+			.col-sm-1 Hours
+			.col-sm-4 Description
+			.col-sm-2 Client
+			.col-sm-3 Actions
+		
+		.activities
+			each activities
+				+activityItem
+			
+	+activitySubmitModal
+
+			
+template( name="activityItem" )
+	.activity-content
+		.col-sm-2 {{formatDate activityDate}}
+		.col-sm-1 {{hours}}
+		.col-sm-4 {{description}}
+		.col-sm-2 {{clientName}}
+		.col-sm-3
+			a.btn.btn-default( href="{{pathFor 'activityPage'}}" ) Edit
+			a.btn.btn-default.delete-activity( href="#" ) Delete
+
+template( name="activityPage" )
+	+activitiesMenu
+
+	div#right
+		h2
+			em Edit Activity
+		+quickForm collection="Activities" doc=activity id="activityEditForm" type="edit" omitFields="dates"
+	+activitySubmitModal
+	
+template( name="activitySubmitModal" )
+	.modal.fade.in(
+		id="activitySubmitModal"
+		role="dialog"
+		aria-labelledby="myModalLabel"
+		area-hidden="true"
+	)
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(
+						type="button"
+						class="close-modal"
+					)
+						span(aria-hidden="true") &times;
+					h4.modal-title Create New Activity
+				.modal-body
+					+autoForm collection="Activities" id="activitySubmitModalForm" type="insert" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"
+						+afQuickField name="activityDate" value=currentDate
+						+afQuickField name="clientId" options=clients
+						+afQuickField name="hours"
+						+afQuickField name="description" rows="5"
+						+afQuickField name="isInOffice"
+						button( type="submit" ) Submit
+						
+template( name="activitiesMenu" )
+	div#left
+		h2
+			em Quick Links
+		ul
+			li
+				a( href="#" class="open-activity") New Activity
+			li
+				a( href="#" class="open-payment") Post Payment
+			li
+				a( href="#" class="open-invoice") Create Invoice
+

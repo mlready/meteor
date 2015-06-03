@@ -1,0 +1,18 @@
+template( name="header" )
+	div#header
+		div
+			ul
+				li
+					a( href="{{pathFor 'activitiesList'}}" ) Activities
+				li
+					a( href="{{pathFor 'clientsList'}}" ) Clients
+				li
+					a( href="{{pathFor 'paymentsList'}}") Payments
+				li
+					a( href="{{pathFor 'invoicesList'}}") Invoices
+			h1
+				a( href="#" ) I Consult
+						
+	+paymentSubmitModal
+	+invoiceSubmitModal
+	+invoicePrintModal

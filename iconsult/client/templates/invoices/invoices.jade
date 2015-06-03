@@ -1,0 +1,84 @@
+template( name="invoicesList" )
+	
+	select#client-picker
+		each clients
+			option( value="{{id}}") {{name}}
+	
+	.header
+		.col-sm-1
+			.title Date
+		.col-sm-1
+			.title Invoice
+		.col-sm-1
+			.title Week
+		.col-sm-1 Starting Balance
+		.col-sm-2
+			.title Activities
+		.col-sm-2 
+			.title Payments
+		.col-sm-1 Ending Balance
+		.col-sm-3
+			.title Actions
+	.invoices
+		each invoices
+			+invoiceItem
+			
+			
+template( name="invoiceItem" )
+	.invoice-content
+		.col-sm-1 {{formatDate invoiceDate}}
+		.col-sm-1 {{invoiceNumber}}
+		.col-sm-1 {{week}}
+		.col-sm-1 {{formatCurrency startingBalance}}
+		.col-sm-2 {{formatCurrency totalActivities}}
+		.col-sm-2 {{formatCurrency totalPayments}}
+		.col-sm-1 {{formatCurrency endingBalance}}
+		.col-sm-3
+			span.pull-left
+				a.btn.btn-default( href="{{pathFor 'invoicePage'}}" ) Edit
+				a.btn.btn-default.delete-invoice( href="#" ) Delete
+				a.btn.btn-default.print-invoice Print
+
+template( name="invoicePage" )
+	h3 Edit
+	+quickForm collection="Invoices" doc=invoice id="invoiceEditForm" type="edit" omitFields="dates"
+	
+
+template( name="invoiceSubmitModal" )
+	.modal.fade.in(
+		id="invoiceSubmitModal"
+		role="dialog"
+		aria-labelledby="myModalLabel"
+		area-hidden="true"
+	)
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(
+						type="button"
+						class="close-modal"
+					)
+						span(aria-hidden="true") &times;
+					h4.modal-title Create New Invoice
+				.modal-body
+					+autoForm collection="Invoices" id="invoiceSubmitModalForm" type="insert" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9"
+						+afQuickField name="week" options=weeks firstOption="Select week" value=getWeek class="week-number"
+						+afQuickField name="client" options=clients value=selectedClient class="client"
+						+afQuickField name="invoiceDate" value=currentDate
+						+afQuickField name="invoiceNumber" value=nextInvoiceNumber
+						+afQuickField name="startingBalance" value=startingBalance class="starting-balance"
+						+afQuickField name="endingBalance" label=false value=endingBalance type="hidden"
+						h3 Activities
+						each activityItems
+							p {{formatDate activityDate}}
+								| {{description}}
+						h3 Payments
+						each paymentItems
+							p {{formatDate paymentDate}}
+								| Invoice Number: {{invoiceNumber}}
+						h3 Ending Balance
+							| {{endingBalance}}
+							
+						button( type="submit" ) Submit
+
+					

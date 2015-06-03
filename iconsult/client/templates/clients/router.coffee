@@ -1,0 +1,1 @@
+Router.route('/clients', {name: 'clientsList'})
